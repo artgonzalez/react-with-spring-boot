@@ -24,7 +24,7 @@
 		<connection/>
 		<developerConnection/>
 		<tag/>
-		<url/>import lombock.Getter;
+		<url/>
 
 	</scm>
 	<properties>
