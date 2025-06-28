@@ -7,9 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.packt.cardb.domain.Car;
+import com.packt.domain.Car;
 import com.packt.cardb.repo.CarRepository;
-import com.packt.cardb.domain.Owner;
+import com.packt.domain.Owner;
 import com.packt.cardb.repo.OwnerRepository;
 
 @SpringBootApplication

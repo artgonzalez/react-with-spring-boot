@@ -9,7 +9,7 @@
   </parent>
   <groupId>com.packt.cardb</groupId>
   <artifactId>rest</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>rest</name>
   <url>http://maven.apache.org</url>
   <dependencies>

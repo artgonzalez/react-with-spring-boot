@@ -1,4 +1,4 @@
-package com.packt.cardb.domain;
+package com.packt.domain;
 
 import java.util.List;
 import jakarta.persistence.CascadeType;
