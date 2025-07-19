@@ -24,8 +24,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig  {
 
     @Autowired
+    private AuthEntryPoint exceptionHandler;
+    @Autowired
     AuthenticationFilter authenticationFilter;
-
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
@@ -40,6 +41,9 @@ public class SecurityConfig  {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint(exceptionHandler)
+                )
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
