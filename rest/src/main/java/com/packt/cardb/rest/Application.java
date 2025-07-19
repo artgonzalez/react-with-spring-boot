@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.packt.cardb.rest.controller.CarController;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.packt.cardb.service"}, basePackageClasses = CarController.class)
+@ComponentScan(basePackages = {"com.packt.cardb.service", "package com.packt.cardb.rest.security"}, basePackageClasses = CarController.class)
 @EntityScan("com.packt.cardb.domain")
 @EnableJpaRepositories(basePackages = "com.packt.cardb.data")
 public class Application{
