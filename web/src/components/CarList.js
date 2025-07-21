@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SERVER_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
 import { Snackbar } from "@mui/material";
+import AddCar from "./AddCar";
 
 export default function CarList() {
     const[cars, setCars] = useState([]);
@@ -34,12 +35,33 @@ export default function CarList() {
 
     }, []);
 
+    const addCar = (car) => {
+        fetch(SERVER_URL + 'api/cars',
+        {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(car)
+        })
+        .then(response => {
+            if(response.ok) {
+                fetchCars();
+                setErrorMsg('Car Added');
+                setOpen(true);
+            }
+            else {
+                setErrorMsg('Car Add Failed');
+                setOpen(true);
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
     const fetchCars = () => {
         fetch(SERVER_URL + 'api/cars')
         .then(response => response.json())
         .then(data => setCars(data._embedded.cars))
         .catch(err => console.error(err));
-    }
+    } 
 
     const onDelClick = (url) => {
         if (window.confirm("Are you sure to delete?")) {
@@ -61,16 +83,19 @@ export default function CarList() {
 
     return (        
         <div style={{ height: 500, width: '100%' }}>
-            <DataGrid
-                rows={cars}
-                columns={columns}
-                getRowId={row => row._links.self.href}/>
-            <Snackbar
-                open={open}
-                autoHideDuration={2000}
-                onClose={() => setOpen(false)}
-                message={errorMsg}
-            />    
+            <React.Fragment>
+                <AddCar addCar={addCar}/>
+                <DataGrid
+                    rows={cars}
+                    columns={columns}
+                    getRowId={row => row._links.self.href}/>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={2000}
+                    onClose={() => setOpen(false)}
+                    message={errorMsg}
+                />    
+            </React.Fragment>
         </div>
     );
 }
