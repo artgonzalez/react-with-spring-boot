@@ -17,14 +17,14 @@ import com.packt.cardb.service.model.CarDTO;
 public class CarController {
 	@Autowired CarService carService;
 	
-	@GetMapping("/cars")
+	@GetMapping("/vehicles")
 	ResponseEntity<Iterable<CarDTO>> all() {
 		Iterable<CarDTO> cars = carService.getCars();
 		
 		return new ResponseEntity<>(cars, HttpStatus.OK);
 	}
 	
-	@GetMapping("/cars/{id}")
+	@GetMapping("/vehicles/{id}")
 	ResponseEntity<CarDTO> getCar(@PathVariable Long id) {
 		CarDTO car = carService.getCar(id);
 		return new ResponseEntity<>(car, HttpStatus.OK);
