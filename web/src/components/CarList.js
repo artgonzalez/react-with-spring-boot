@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { SERVER_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
-import { Snackbar } from "@mui/material";
+import { IconButton, Snackbar, Stack } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete"
 import AddCar from "./AddCar";
 import EditCar from "./EditCar"
 
@@ -35,9 +36,10 @@ export default function CarList() {
             filterable: false,
             renderCell: row =>
 
-            <button
-                onClick={() => onDelClick(row.id)}>Delete
-            </button>
+            <IconButton onClick={() => onDelClick
+                (row.id)}>
+                <DeleteIcon color="error" />
+            </IconButton>
             }
     ];
 
@@ -120,7 +122,9 @@ export default function CarList() {
     return (        
         <div style={{ height: 500, width: '100%' }}>
             <React.Fragment>
-                <AddCar addCar={addCar}/>
+                <Stack mt={2} mb={2}>
+                    <AddCar addCar={addCar}/>
+                </Stack>
                 <DataGrid
                     rows={cars}
                     columns={columns}

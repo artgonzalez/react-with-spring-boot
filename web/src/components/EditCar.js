@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import Dialog from '@mui/material/Dialog'
-import { DialogActions } from "@mui/material";
-import { DialogContent } from "@mui/material";
-import { DialogTitle } from "@mui/material";
+import { Button, DialogActions } from "@mui/material";
+import { DialogContent, IconButton } from "@mui/material";
+import { DialogTitle, TextField, Stack } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit"
 
 export default function EditCar(props) {
     const[open, setOpen] = useState(false);
@@ -42,19 +43,23 @@ export default function EditCar(props) {
 
     return(
         <div>
-            <button onClick={handleClickOpen}>Edit</button>
+            <IconButton onClick={handleClickOpen}>
+                <EditIcon color="primary" />
+            </IconButton>
             <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Edit car</DialogTitle>
             <DialogContent>
-            <input placeholder="Brand" name="brand" value={car.brand}onChange={handleChange}/><br/>
-            <input placeholder="Model" name="model" value={car.model}onChange={handleChange}/><br/>
-            <input placeholder="Color" name="color" value={car.color}onChange={handleChange}/><br/>
-            <input placeholder="Year" name="year" value={car.year} onChange={handleChange}/><br/>
-            <input placeholder="Price" name="price" value={car.price}onChange={handleChange}/><br/>
+            <Stack spacing={2} mt={1}>
+                <TextField label="Brand" name="brand" autoFocus variant="standard" value={car.brand} onChange={handleChange}/><br/>
+                <TextField label="Model" name="model" variant="standard" value={car.model} onChange={handleChange}/><br/>
+                <TextField label="Color" name="color" variant="standard" value={car.color} onChange={handleChange}/><br/>
+                <TextField label="Year" name="year" variant="standard" value={car.year} onChange={handleChange}/><br/>
+                <TextField label="Price" name="price" variant="standard" value={car.price} onChange={handleChange}/><br/>
+            </Stack>
             </DialogContent>
             <DialogActions>
-            <button onClick={handleClose}> Cancel </button>
-            <button onClick={handleSave}>Save</button>
+            <Button onClick={handleClose}> Cancel </Button>
+            <Button onClick={handleSave}>Save</Button>
             </DialogActions>
             </Dialog>
         </div>
