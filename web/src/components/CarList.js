@@ -5,6 +5,7 @@ import { SERVER_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
 import { Snackbar } from "@mui/material";
 import AddCar from "./AddCar";
+import EditCar from "./EditCar"
 
 export default function CarList() {
     const[cars, setCars] = useState([]);
@@ -17,6 +18,16 @@ export default function CarList() {
         {field: 'color', headerName: 'Color', width: 200},
         {field: 'year', headerName: 'Year', width: 150},
         {field: 'price', headerName: 'Price', width: 150},
+        {
+            field: '_links.car.href',
+            headerName: '',
+            sortable: false,
+            filterable: false,
+            renderCell: row =>
+              <EditCar
+                data={row}
+                updateCar={updateCar} />
+        },
         {
             field: '_links.self.href',
             headerName: '',
@@ -37,6 +48,7 @@ export default function CarList() {
 
     const addCar = (car) => {
         fetch(SERVER_URL + 'api/cars',
+
         {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
@@ -44,14 +56,18 @@ export default function CarList() {
         })
         .then(response => {
             if(response.ok) {
+
                 fetchCars();
                 setErrorMsg('Car Added');
                 setOpen(true);
             }
+
             else {
                 setErrorMsg('Car Add Failed');
                 setOpen(true);
             }
+
+
         })
         .catch(err => console.error(err));
     }
@@ -62,6 +78,26 @@ export default function CarList() {
         .then(data => setCars(data._embedded.cars))
         .catch(err => console.error(err));
     } 
+
+    const updateCar = (car, link) => {
+        fetch(link,
+        {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(car)
+        })
+        .then(response => {
+            if(response.ok) {
+                fetchCars();
+                setErrorMsg('Car Edited');
+                setOpen(true);
+            }
+            else {
+                setErrorMsg('Car Edit Failed');
+                setOpen(true);    
+            }
+        })
+    }
 
     const onDelClick = (url) => {
         if (window.confirm("Are you sure to delete?")) {
