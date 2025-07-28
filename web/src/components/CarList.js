@@ -124,7 +124,8 @@ export default function CarList() {
                 <DataGrid
                     rows={cars}
                     columns={columns}
-                    getRowId={row => row._links.self.href}/>
+                    getRowId={row => row._links.self.href}
+                    showToolbar/>
                 <Snackbar
                     open={open}
                     autoHideDuration={2000}
