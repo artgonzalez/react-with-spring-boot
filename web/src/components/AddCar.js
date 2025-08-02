@@ -13,7 +13,8 @@ export default function AddCar(props) {
         color: '',
         year: '',
         fuel: '',
-        price: ''
+        price: '',
+        owner: {}
     });
 
     const handleClickOpen = () => {

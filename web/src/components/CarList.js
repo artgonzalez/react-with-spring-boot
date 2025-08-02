@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import AddCar from "./AddCar";
 import EditCar from "./EditCar"
 
-export default function CarList() {
+export default function CarList(props) {
     const[cars, setCars] = useState([]);
     const[open, setOpen] = useState(false);
     const[errorMsg, setErrorMsg] = useState('');
@@ -44,11 +44,12 @@ export default function CarList() {
     ];
 
     useEffect(() => {
-        fetchCars()
+        fetchCars(props.owner._links.cars.href)
 
-    }, []);
+    }, [props.owner._links.cars.href]);
 
     const addCar = (car) => {
+        car.owner = props.owner._links.owner.href.replace(SERVER_URL + "api", "");
         fetch(SERVER_URL + 'api/cars',
 
         {
@@ -59,7 +60,7 @@ export default function CarList() {
         .then(response => {
             if(response.ok) {
 
-                fetchCars();
+                fetchCars(props.owner._links.cars.href);
                 setErrorMsg('Car Added');
                 setOpen(true);
             }
@@ -74,8 +75,8 @@ export default function CarList() {
         .catch(err => console.error(err));
     }
 
-    const fetchCars = () => {
-        fetch(SERVER_URL + 'api/cars')
+    const fetchCars = (carsURL) => {
+        fetch(carsURL)
         .then(response => response.json())
         .then(data => setCars(data._embedded.cars))
         .catch(err => console.error(err));
