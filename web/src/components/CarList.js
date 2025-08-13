@@ -130,6 +130,12 @@ export default function CarList(props) {
                     rows={cars}
                     columns={columns}
                     getRowId={row => row._links.self.href}
+                    pageSizeOptions={[3, 6, 9]}
+                    initialState={{
+                    pagination: {
+                      paginationModel: { pageSize: 3, page: 0 }, // Sets initial page size to 10 and starts on the first page
+                    },
+                }}                
                     showToolbar/>
                 <Snackbar
                     open={open}

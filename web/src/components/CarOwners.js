@@ -46,6 +46,12 @@ export default function CarOwners() {
                 getRowId={row => row._links.self.href}
                 masterDetail = {true}  
                 onRowClick = {handleRowClick}
+                pageSizeOptions={[3, 6, 9]}
+                initialState={{
+                    pagination: {
+                      paginationModel: { pageSize: 3, page: 0 }, // Sets initial page size to 10 and starts on the first page
+                    },
+                }}                
                 //getDetailPanelContent = {getDetailPanelContent}
                 //getDetailPanelContent = {({ row }) => <DetailPanelContent row={row} />}
                 //getDetailPanelHeight = {getDetailPanelHeight}
