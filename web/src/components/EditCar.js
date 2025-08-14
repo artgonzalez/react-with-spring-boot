@@ -16,6 +16,26 @@ export default function EditCar(props) {
         price: ''
     });
 
+    const updateCar = (car, link) => {
+        fetch(link,
+        {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(car)
+        })
+        .then(response => {
+            if(response.ok) {
+                props.handleFetchCars(props.carsURL);
+                props.handleErrorMsg('Car Edited');
+                props.handleOpen(true);
+            }
+            else {
+                props.handleErrorMsg('Car Edit Failed');
+                props.handleOpen(true);    
+            }
+        })
+    }
+
     const handleClickOpen = () => {
         setCar({
             brand: props.data.row.brand,
@@ -37,7 +57,7 @@ export default function EditCar(props) {
     }
 
     const handleSave = () => {
-        props.updateCar(car, props.data.id);
+        updateCar(car, props.data.id);
         handleClose();
     }
 

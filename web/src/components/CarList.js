@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { SERVER_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton, Snackbar, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -27,7 +26,11 @@ export default function CarList(props) {
             renderCell: row =>
               <EditCar
                 data={row}
-                updateCar={updateCar} />
+                handleOpen={setOpen} 
+                handleErrorMsg={setErrorMsg} 
+                handleFetchCars={fetchCars}
+                carsURL={props.owner._links.cars.href}
+                />
         },
         {
             field: '_links.self.href',
@@ -54,26 +57,6 @@ export default function CarList(props) {
         .then(data => setCars(data._embedded.cars))
         .catch(err => console.error(err));
     } 
-
-    const updateCar = (car, link) => {
-        fetch(link,
-        {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(car)
-        })
-        .then(response => {
-            if(response.ok) {
-                fetchCars();
-                setErrorMsg('Car Edited');
-                setOpen(true);
-            }
-            else {
-                setErrorMsg('Car Edit Failed');
-                setOpen(true);    
-            }
-        })
-    }
 
     const onDelClick = (url) => {
         if (window.confirm("Are you sure to delete?")) {
