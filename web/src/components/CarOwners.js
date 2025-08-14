@@ -3,11 +3,15 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { SERVER_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
+import { IconButton, Snackbar, Stack } from "@mui/material";
+import AddOwner from "./AddOwner";
 import CarList from "./CarList";
 
 export default function CarOwners() {
-    const [owners, setOwners] = useState([]);
-    const [carOwner, setCarOwner] = useState(null);
+    const[errorMsg, setErrorMsg] = useState('');
+    const[open, setOpen] = useState(false);
+    const[owners, setOwners] = useState([]);
+    const[carOwner, setCarOwner] = useState(null);
 
     const columns = [
         {field: 'firstname', headerName: 'First Name', width: 200},
@@ -40,6 +44,9 @@ export default function CarOwners() {
 
     return(
         <React.Fragment>
+            <Stack mt={2} mb={2}>
+                    <AddOwner handleOpen={setOpen} handleErrorMsg={setErrorMsg} handleFetchOwners={fetchOwners}/>
+            </Stack>
             <DataGrid 
                 rows = {owners}
                 columns={columns}
@@ -56,6 +63,13 @@ export default function CarOwners() {
                 //getDetailPanelContent = {({ row }) => <DetailPanelContent row={row} />}
                 //getDetailPanelHeight = {getDetailPanelHeight}
             />
+            <Snackbar
+                open={open}
+                autoHideDuration={2000}
+                onClose={() => setOpen(false)}
+                message={errorMsg}
+            />    
+
             {
             carOwner &&
             <div>
