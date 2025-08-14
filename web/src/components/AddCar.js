@@ -3,6 +3,7 @@ import Dialog from '@mui/material/Dialog'
 import { Button, DialogActions } from "@mui/material";
 import { DialogContent } from "@mui/material";
 import { DialogTitle, TextField, Stack } from "@mui/material";
+import { SERVER_URL } from "../constants";
 
 export default function AddCar(props) {
 
@@ -17,6 +18,29 @@ export default function AddCar(props) {
         owner: {}
     });
 
+    const addCar = () => {
+        car.owner = props.owner._links.owner.href.replace(SERVER_URL + "api", "");
+        fetch(SERVER_URL + 'api/cars',
+        {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(car)
+        })
+        .then(response => {
+            if(response.ok) {
+
+                props.handleFetchCars(props.owner._links.cars.href);
+                props.handleErrorMsg('Car Added');
+                props.handleOpen(true);
+            }
+            else {
+                props.ErrorMsg('Car Add Failed');
+                props.handleOpen(true);
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
     const handleClickOpen = () => {
         setOpen(true);
     }
@@ -30,7 +54,7 @@ export default function AddCar(props) {
     }
 
     const handleSave = () =>{
-        props.addCar(car);
+        addCar();
         handleClose();
         setCar({
             brand: '',

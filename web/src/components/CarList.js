@@ -48,33 +48,6 @@ export default function CarList(props) {
 
     }, [props.owner._links.cars.href]);
 
-    const addCar = (car) => {
-        car.owner = props.owner._links.owner.href.replace(SERVER_URL + "api", "");
-        fetch(SERVER_URL + 'api/cars',
-
-        {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(car)
-        })
-        .then(response => {
-            if(response.ok) {
-
-                fetchCars(props.owner._links.cars.href);
-                setErrorMsg('Car Added');
-                setOpen(true);
-            }
-
-            else {
-                setErrorMsg('Car Add Failed');
-                setOpen(true);
-            }
-
-
-        })
-        .catch(err => console.error(err));
-    }
-
     const fetchCars = (carsURL) => {
         fetch(carsURL)
         .then(response => response.json())
@@ -124,7 +97,7 @@ export default function CarList(props) {
         <div style={{ height: 500, width: '100%' }}>
             <React.Fragment>
                 <Stack mt={2} mb={2}>
-                    <AddCar addCar={addCar}/>
+                    <AddCar handleOpen={setOpen} handleErrorMsg={setErrorMsg} handleFetchCars={fetchCars} owner={props.owner}/>
                 </Stack>
                 <DataGrid
                     rows={cars}
