@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Dialog from '@mui/material/Dialog'
-import { Button, DialogActions } from "@mui/material";
+import { DialogActions } from "@mui/material";
 import { DialogContent, IconButton } from "@mui/material";
 import { DialogTitle, TextField, Stack } from "@mui/material";
-import { SERVER_URL } from "../constants";
 import EditIcon from "@mui/icons-material/Edit"
 
 export default function AddOwner(props) {
