@@ -3,8 +3,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { SERVER_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Snackbar, Stack } from "@mui/material";
+import { Button, IconButton, Snackbar, Stack } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete"
 import AddOwner from "./AddOwner";
+import EditOwner from "./EditOwner"
 import CarList from "./CarList";
 
 export default function CarOwners() {
@@ -16,6 +18,19 @@ export default function CarOwners() {
     const columns = [
         {field: 'firstname', headerName: 'First Name', width: 200},
         {field: 'lastname', headerName: 'Last Name', width: 200},
+        {
+            field: '_links.owner.href',
+            headerName: '',
+            sortable: false,
+            filterable: false,
+            renderCell: row =>
+              <EditOwner
+                data={row}
+                handleOpen={setOpen} 
+                handleErrorMsg={setErrorMsg} 
+                handleFetchOwners={fetchOwners}
+                />
+        }
     ];
 
     /**const getDetailPanelHeight = React.useCallback(() => 'auto', []);
@@ -38,6 +53,8 @@ export default function CarOwners() {
         .catch(err => console.error(err));
     }    
 
+    const onDelClick = (url) => {}
+
     const handleRowClick = (params) => {
         setCarOwner(params.row);
     }
@@ -45,7 +62,7 @@ export default function CarOwners() {
     return(
         <React.Fragment>
             <Stack mt={2} mb={2}>
-                    <AddOwner handleOpen={setOpen} handleErrorMsg={setErrorMsg} handleFetchOwners={fetchOwners}/>
+                <AddOwner handleOpen={setOpen} handleErrorMsg={setErrorMsg} handleFetchOwners={fetchOwners}/>
             </Stack>
             <DataGrid 
                 rows = {owners}
