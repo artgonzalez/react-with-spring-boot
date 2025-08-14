@@ -73,7 +73,7 @@ export default function CarList(props) {
                 }
             })
             .catch(err => console.error(err))
-        }    fetch(url,  {method:  'DELETE'})
+        }    
     }
 
     return (        

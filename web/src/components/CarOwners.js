@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { SERVER_URL } from "../constants";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, IconButton, Snackbar, Stack } from "@mui/material";
+import { IconButton, Snackbar, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete"
 import AddOwner from "./AddOwner";
 import EditOwner from "./EditOwner"
@@ -30,7 +30,19 @@ export default function CarOwners() {
                 handleErrorMsg={setErrorMsg} 
                 handleFetchOwners={fetchOwners}
                 />
-        }
+        },
+        {
+            field: '_links.self.href',
+            headerName: '',
+            sortable: false,
+            filterable: false,
+            renderCell: row =>
+
+            <IconButton onClick={() => onDelClick
+                (row.id)}>
+                <DeleteIcon color="error" />
+            </IconButton>
+            }
     ];
 
     /**const getDetailPanelHeight = React.useCallback(() => 'auto', []);
@@ -53,7 +65,25 @@ export default function CarOwners() {
         .catch(err => console.error(err));
     }    
 
-    const onDelClick = (url) => {}
+    const onDelClick = (url) => {
+        if (window.confirm("Are you sure to delete?")) {
+            fetch(url,  {method:  'DELETE'})
+            .then(response => {
+                if( response.ok) {
+                    console.log('deleted');
+                    fetchOwners();
+                    setErrorMsg('Owner Deleted');
+                    setOpen(true);
+                } 
+                else {
+                    console.log('delete error');
+                    setErrorMsg('Delete Owner Failed');
+                    setOpen(true);
+                }
+            })
+            .catch(err => console.error(err))
+        }    
+    }
 
     const handleRowClick = (params) => {
         setCarOwner(params.row);
